@@ -1,5 +1,7 @@
 const Unit = Prototype.create();
-Unit.factory.weapons = ['knife'];
+Unit.factory.weapons = [
+  Knife.factory.create({})
+];
 Unit.isDead = function () {
   return this.getHP() <= 0;
 };
@@ -14,6 +16,7 @@ Unit.factory.init = function (instance, args) {
   instance.getHP = () => hp.getValue();
   instance.getWeapons = () => weapons.slice();
   instance.addWeapon = (item) => weapons.push(item);
+  instance.dropAllWeapons = () => weapons.length = 0;
   instance.increaseHP = (number) => hp.increaseValue(number).getValue();
   instance.decreaseHP = (number) => hp.decreaseValue(number).getValue();
 };
