@@ -4,7 +4,7 @@ Unit.isDead = function () {
   return this.getHP() <= 0;
 };
 Unit.factory.init = function (instance, args) {
-  const weapons = Unit.factory.weapons.slice();
+  const weapons = this.weapons.slice();
   const hp = IntRange.factory.create({
     min: 0,
     max: 100,
