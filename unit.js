@@ -1,5 +1,10 @@
 const Unit = Prototype.create();
 Unit.factory.weapons = [Knife];
+Unit.factory.hp = {
+  min: 0,
+  max: 100,
+  initialValue: 100,
+};
 Unit.isDead = function () {
   return this.getHP() <= 0;
 };
@@ -8,9 +13,9 @@ Unit.factory.init = function (instance, args) {
     return weaponType.factory.create({});
   });
   const hp = IntRange.factory.create({
-    min: 0,
-    max: 100,
-    initialValue: 100,
+    min: this.hp.min,
+    max: this.hp.max,
+    initialValue: this.hp.initialValue,
   });
   createConstProperty(instance, 'name', args.name);
   instance.getHP = () => hp.getValue();
