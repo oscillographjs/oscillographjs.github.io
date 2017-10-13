@@ -20,3 +20,4 @@ Riffle.factory.init = function (instance, args) {
   instance.getClipSize = () => clipSize;
 };
 const Axe = Prototype.extend(Weapon);
+const BarrelGun = Prototype.extend(Weapon);
