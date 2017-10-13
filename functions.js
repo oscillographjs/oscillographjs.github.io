@@ -9,3 +9,6 @@ const createConstProperty = (instance, propertyName, value) => {
     value: value,
   });
 }
+const sayNotImplemented = function () {
+  throw Error('Must be implemented');
+}
