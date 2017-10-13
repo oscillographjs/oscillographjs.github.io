@@ -1,12 +1,12 @@
 const Unit = Prototype.create();
-Unit.factory.weapons = [
-  Knife.factory.create({})
-];
+Unit.factory.weapons = [Knife];
 Unit.isDead = function () {
   return this.getHP() <= 0;
 };
 Unit.factory.init = function (instance, args) {
-  const weapons = this.weapons.slice();
+  const weapons = this.weapons.map((weaponType) => {
+    return weaponType.factory.create({});
+  });
   const hp = IntRange.factory.create({
     min: 0,
     max: 100,

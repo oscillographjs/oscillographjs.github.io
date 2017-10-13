@@ -19,3 +19,4 @@ Riffle.factory.init = function (instance, args) {
   createConstProperty(instance, 'isReusable', true);
   instance.getClipSize = () => clipSize;
 };
+const Axe = Prototype.extend(Weapon);
