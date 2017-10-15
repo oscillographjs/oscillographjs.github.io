@@ -10,8 +10,112 @@
   <script src="army.js"></script>
   <script src="army_units.js"></script>
   <script src="unit_factory.js"></script>
+  <script src="point.js"></script>
+  <style>
+    .canvas {
+      margin: 0 auto;
+      display: block;
+      border: 1px solid grey;
+    }
+  </style>
 </head>
 <body>
+  <canvas
+    id="tutorialCanvas"
+    class="canvas"
+    width="1280"
+    height="720"
+    ></canvas>
   <script src="main.js"></script>
+  <script>
+    const ctx = tutorialCanvas.getContext("2d");
+    createConstProperty(ctx, "height", tutorialCanvas.height);
+    createConstProperty(ctx, "width", tutorialCanvas.width);
+    const wipe = function () {
+      ctx.fillStyle = "rgb(255, 255, 255)";
+      ctx.fillRect(0,0, ctx.width, ctx.height);
+    };
+    const drawRect = (args) => {
+      const {x, y, width, height, color} = args;
+      let rgb = "";
+      if (color === "red") {
+        rgb = "rgb(200, 0, 0)";
+      } else if (color === "green") {
+        rgb = "rgb(0, 200, 0)";
+      } else if (color === "blue") {
+        rgb = "rgb(0, 0, 200)";
+      } else {
+        rgb = "rgb(0,0,0)";
+      }
+      ctx.fillStyle = rgb;
+      ctx.fillRect(x, y, width, height);
+    }
+    const drawPoint = (x, y, color) => {
+      drawRect({
+        x: x,
+        y: y,
+        width: 2,
+        height: 2,
+        color: color ? color : "",
+      });
+    }
+    const drawRandomPoint = () => {
+      let color = "";
+      const randomColorNumber = getRandomInt(1, 2);
+      if (randomColorNumber === 1) {
+        color = "red";
+      } else {
+        color = "blue";
+      }
+      drawPoint(
+        getRandomInt(1, ctx.width),
+        getRandomInt(1, ctx.width),
+        color
+      );
+    }
+    ctx.x = ctx.width/2;
+    ctx.y = ctx.height/2;
+    ctx.beginPath();
+    ctx.moveTo(ctx.x, ctx.y);
+    ctx.closePath();
+    const drawRandomLine = () => {
+      const currentRandomPoint = {
+        x: ctx.x,
+        y: ctx.y,
+      }
+      const angle = getRandomInt(0, 360);
+      const Radius = ctx.height/12;
+      const newDestination = {
+        x: IntRange.factory.create({
+          min: 0,
+          max: ctx.width,
+          initialValue: 0,
+        }),
+        y: IntRange.factory.create({
+          min: 0,
+          max: ctx.height,
+          initialValue: 0,
+        }),
+      }
+      const newX = Radius*Math.cos(angle) + currentRandomPoint.x;
+      const newY = Radius*Math.sin(angle) + currentRandomPoint.y;
+      newDestination.x.changeValue(newX);
+      newDestination.y.changeValue(newY);
+      ctx.beginPath();
+      ctx.moveTo(currentRandomPoint.x, currentRandomPoint.y);
+      ctx.lineTo(newDestination.x.getValue(), newDestination.y.getValue());
+      ctx.stroke();
+      ctx.closePath();
+      ctx.x = newDestination.x.getValue();
+      ctx.y = newDestination.y.getValue();
+    }
+
+    const startRandomFilling = function () {
+      drawRandomLine();
+      drawRandomPoint();
+      requestAnimationFrame(startRandomFilling);
+    }
+    startRandomFilling();
+  </script>
 </body>
 </html>

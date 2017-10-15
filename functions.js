@@ -12,3 +12,6 @@ const createConstProperty = (instance, propertyName, value) => {
 const sayNotImplemented = function () {
   throw Error('Must be implemented');
 }
+const getRandomInt = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}

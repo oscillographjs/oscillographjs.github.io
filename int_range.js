@@ -10,7 +10,7 @@ IntRange.factory.init = function (instance, args) {
   createConstProperty(instance, 'getValue', () => value);
   const setValue = (newValue) => {
     if (intVal(newValue) > max || intVal(newValue) < min) {
-      throw Error('Invalid value');
+      throw Error('Invalid value' +": "+ newValue);
     }
     value = newValue;
     return instance;
@@ -32,4 +32,11 @@ IntRange.decreaseValue = function (number) {
     this.setValue(this.getValue() - intVal(number));
   }
   return this;
+}
+IntRange.changeValue = function(number) {
+  if (number >= 0) {
+    this.increaseValue(number);
+  } else {
+    this.decreaseValue(Math.abs(number));
+  }
 }
