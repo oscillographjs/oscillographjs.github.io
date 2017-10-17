@@ -97,8 +97,8 @@
           initialValue: 0,
         }),
       }
-      const newX = Radius*Math.cos(angle) + currentRandomPoint.x;
-      const newY = Radius*Math.sin(angle) + currentRandomPoint.y;
+      const newX = Math.round(Radius*Math.cos(angle)) + currentRandomPoint.x;
+      const newY = Math.round(Radius*Math.sin(angle)) + currentRandomPoint.y;
       newDestination.x.changeValue(newX);
       newDestination.y.changeValue(newY);
       ctx.beginPath();
