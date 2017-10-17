@@ -86,7 +86,7 @@
         x: ctx.x,
         y: ctx.y,
       }
-      const angle = getRandomInt(0, 360);
+      const angle = 2 * Math.PI * Math.random();
       const newDestination = {
         x: IntRange.factory.create({
           min: 0,
