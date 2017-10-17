@@ -117,16 +117,23 @@
     }
 
     let Frequency = 1;
+    let FramesToSkip = 0;
     const runFrame = () => {
       drawRandomLine();
       drawRandomPoint();
     }
     const startRandomFilling = function () {
-      for (let i = 0; i < Frequency; i++) {
-        runFrame();
+      if (startRandomFilling.skippedFrames >= FramesToSkip) {
+        for (let i = 0; i < Frequency; i++) {
+          runFrame();
+        }
+        startRandomFilling.skippedFrames = 0;
+      } else {
+        startRandomFilling.skippedFrames += 1;
       }
       requestAnimationFrame(startRandomFilling);
     }
+    startRandomFilling.skippedFrames = 0;
     startRandomFilling();
   </script>
 </body>
