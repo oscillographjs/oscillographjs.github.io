@@ -81,42 +81,50 @@
     ctx.beginPath();
     ctx.moveTo(ctx.x, ctx.y);
     ctx.closePath();
+    const NewDestination = {
+      x: IntRange.factory.create({
+        min: 0,
+        max: ctx.width,
+        initialValue: 0,
+      }),
+      y: IntRange.factory.create({
+        min: 0,
+        max: ctx.height,
+        initialValue: 0,
+      }),
+    };
     const drawRandomLine = () => {
+      NewDestination.x.setValue(NewDestination.x.MIN);
+      NewDestination.y.setValue(NewDestination.y.MIN);
       const currentRandomPoint = {
         x: ctx.x,
         y: ctx.y,
       }
       const angle = 2 * Math.PI * Math.random();
-      const newDestination = {
-        x: IntRange.factory.create({
-          min: 0,
-          max: ctx.width,
-          initialValue: 0,
-        }),
-        y: IntRange.factory.create({
-          min: 0,
-          max: ctx.height,
-          initialValue: 0,
-        }),
-      }
       const newX =
         Math.round(LineLength * Math.cos(angle)) + currentRandomPoint.x;
       const newY =
         Math.round(LineLength * Math.sin(angle)) + currentRandomPoint.y;
-      newDestination.x.changeValue(newX);
-      newDestination.y.changeValue(newY);
+      NewDestination.x.changeValue(newX);
+      NewDestination.y.changeValue(newY);
       ctx.beginPath();
       ctx.moveTo(currentRandomPoint.x, currentRandomPoint.y);
-      ctx.lineTo(newDestination.x.getValue(), newDestination.y.getValue());
+      ctx.lineTo(NewDestination.x.getValue(), NewDestination.y.getValue());
       ctx.stroke();
       ctx.closePath();
-      ctx.x = newDestination.x.getValue();
-      ctx.y = newDestination.y.getValue();
+      ctx.x = NewDestination.x.getValue();
+      ctx.y = NewDestination.y.getValue();
     }
 
-    const startRandomFilling = function () {
+    let Frequency = 1;
+    const runFrame = () => {
       drawRandomLine();
       drawRandomPoint();
+    }
+    const startRandomFilling = function () {
+      for (let i = 0; i < Frequency; i ++) {
+        runFrame();
+      }
       requestAnimationFrame(startRandomFilling);
     }
     startRandomFilling();
