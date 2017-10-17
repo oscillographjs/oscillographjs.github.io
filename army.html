@@ -29,6 +29,8 @@
   <script src="main.js"></script>
   <script>
     const ctx = tutorialCanvas.getContext("2d");
+    tutorialCanvas.width = window.innerWidth*0.9;
+    tutorialCanvas.height = window.innerHeight*0.9;
     createConstProperty(ctx, "height", tutorialCanvas.height);
     createConstProperty(ctx, "width", tutorialCanvas.width);
     const wipe = function () {
