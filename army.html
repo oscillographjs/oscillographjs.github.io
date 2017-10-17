@@ -33,6 +33,7 @@
     tutorialCanvas.height = window.innerHeight*0.9;
     createConstProperty(ctx, "height", tutorialCanvas.height);
     createConstProperty(ctx, "width", tutorialCanvas.width);
+    const LineLength = ctx.height/12;
     const wipe = function () {
       ctx.fillStyle = "rgb(255, 255, 255)";
       ctx.fillRect(0,0, ctx.width, ctx.height);
@@ -86,7 +87,6 @@
         y: ctx.y,
       }
       const angle = getRandomInt(0, 360);
-      const Radius = ctx.height/12;
       const newDestination = {
         x: IntRange.factory.create({
           min: 0,
@@ -99,8 +99,8 @@
           initialValue: 0,
         }),
       }
-      const newX = Math.round(Radius*Math.cos(angle)) + currentRandomPoint.x;
-      const newY = Math.round(Radius*Math.sin(angle)) + currentRandomPoint.y;
+      const newX = Math.round(LineLength*Math.cos(angle)) + currentRandomPoint.x;
+      const newY = Math.round(LineLength*Math.sin(angle)) + currentRandomPoint.y;
       newDestination.x.changeValue(newX);
       newDestination.y.changeValue(newY);
       ctx.beginPath();
