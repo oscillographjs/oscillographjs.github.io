@@ -38,44 +38,6 @@
       ctx.fillStyle = "rgb(255, 255, 255)";
       ctx.fillRect(0,0, ctx.width, ctx.height);
     };
-    const drawRect = (args) => {
-      const {x, y, width, height, color} = args;
-      let rgb = "";
-      if (color === "red") {
-        rgb = "rgb(200, 0, 0)";
-      } else if (color === "green") {
-        rgb = "rgb(0, 200, 0)";
-      } else if (color === "blue") {
-        rgb = "rgb(0, 0, 200)";
-      } else {
-        rgb = "rgb(0,0,0)";
-      }
-      ctx.fillStyle = rgb;
-      ctx.fillRect(x, y, width, height);
-    }
-    const drawPoint = (x, y, color) => {
-      drawRect({
-        x: x,
-        y: y,
-        width: 2,
-        height: 2,
-        color: color ? color : "",
-      });
-    }
-    const drawRandomPoint = () => {
-      let color = "";
-      const randomColorNumber = getRandomInt(1, 2);
-      if (randomColorNumber === 1) {
-        color = "red";
-      } else {
-        color = "blue";
-      }
-      drawPoint(
-        getRandomInt(1, ctx.width),
-        getRandomInt(1, ctx.height),
-        color
-      );
-    }
     ctx.x = ctx.width / 2;
     ctx.y = ctx.height / 2;
     ctx.beginPath();
@@ -120,7 +82,6 @@
     let FramesToSkip = 0;
     const runFrame = () => {
       drawRandomLine();
-      drawRandomPoint();
     }
     const startRandomFilling = function () {
       if (startRandomFilling.skippedFrames >= FramesToSkip) {
