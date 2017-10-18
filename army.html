@@ -58,19 +58,15 @@
     const drawRandomLine = () => {
       NewDestination.x.setValue(NewDestination.x.MIN);
       NewDestination.y.setValue(NewDestination.y.MIN);
-      const currentRandomPoint = {
-        x: ctx.x,
-        y: ctx.y,
-      }
       const angle = 2 * Math.PI * Math.random();
       const newX =
-        Math.round(LineLength * Math.cos(angle)) + currentRandomPoint.x;
+        Math.round(LineLength * Math.cos(angle)) + ctx.x;
       const newY =
-        Math.round(LineLength * Math.sin(angle)) + currentRandomPoint.y;
+        Math.round(LineLength * Math.sin(angle)) + ctx.y;
       NewDestination.x.changeValue(newX);
       NewDestination.y.changeValue(newY);
       ctx.beginPath();
-      ctx.moveTo(currentRandomPoint.x, currentRandomPoint.y);
+      ctx.moveTo(ctx.x, ctx.y);
       ctx.lineTo(NewDestination.x.getValue(), NewDestination.y.getValue());
       ctx.stroke();
       ctx.closePath();
