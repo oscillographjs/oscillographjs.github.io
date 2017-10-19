@@ -29,8 +29,8 @@
   <script src="main.js"></script>
   <script>
     const ctx = tutorialCanvas.getContext("2d");
-    tutorialCanvas.width = window.innerWidth * 0.9;
-    tutorialCanvas.height = window.innerHeight * 0.9;
+    tutorialCanvas.width = window.innerWidth * 0.95;
+    tutorialCanvas.height = window.innerHeight * 0.95;
     createConstProperty(ctx, "height", tutorialCanvas.height);
     createConstProperty(ctx, "width", tutorialCanvas.width);
     const LineLength = ctx.height / 12;
@@ -55,6 +55,16 @@
         initialValue: 0,
       }),
     };
+    const drawLine = (x1, y1, x2, y2) => {
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      ctx.closePath();
+    }
+    const drawPoint = (x, y) => {
+      drawLine(x, y, x + 1, y + 1);
+    }
     const drawRandomLine = () => {
       NewDestination.x.setValue(NewDestination.x.MIN);
       NewDestination.y.setValue(NewDestination.y.MIN);
@@ -65,19 +75,26 @@
         Math.round(LineLength * Math.sin(angle)) + ctx.y;
       NewDestination.x.changeValue(newX);
       NewDestination.y.changeValue(newY);
-      ctx.beginPath();
-      ctx.moveTo(ctx.x, ctx.y);
-      ctx.lineTo(NewDestination.x.getValue(), NewDestination.y.getValue());
-      ctx.stroke();
-      ctx.closePath();
+      drawLine(
+        ctx.x,
+        ctx.y,
+        NewDestination.x.getValue(),
+        NewDestination.y.getValue()
+      );
       ctx.x = NewDestination.x.getValue();
       ctx.y = NewDestination.y.getValue();
     }
-
+    const drawRandomPoint = () => {
+      drawPoint(
+        Math.floor(Math.random()*ctx.width),
+        Math.floor(Math.random()*ctx.height)
+      );
+    }
     let Frequency = 1;
     let FramesToSkip = 0;
     const runFrame = () => {
       drawRandomLine();
+      drawRandomPoint();
     }
     const startRandomFilling = function () {
       if (startRandomFilling.skippedFrames >= FramesToSkip) {
