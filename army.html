@@ -84,21 +84,36 @@
       ctx.x = NewDestination.x.getValue();
       ctx.y = NewDestination.y.getValue();
     }
+    const Params = {
+      xPi: 2,
+      yPi: 2,
+      xFunc: 'cos',
+      yFunc: 'sin',
+      Frequency: 500,
+    };
     const drawRandomPoint = () => {
+      var ss = Math.random();
       drawPoint(
-        Math.floor(Math.random()*ctx.width),
-        Math.floor(Math.random()*ctx.height)
+        Math.floor(
+          ctx.x + LineLength * 5 * (
+            Math[Params.xFunc](ss * Math.PI * Params.xPi)
+          )
+        ),
+        Math.floor(
+          ctx.y + LineLength * 5 * (
+            Math[Params.yFunc](ss * Math.PI * Params.yPi)
+          )
+        )
       );
     }
-    let Frequency = 1;
     let FramesToSkip = 0;
     const runFrame = () => {
-      drawRandomLine();
+      // drawRandomLine();
       drawRandomPoint();
     }
     const startRandomFilling = function () {
       if (startRandomFilling.skippedFrames >= FramesToSkip) {
-        for (let i = 0; i < Frequency; i++) {
+        for (let i = 0; i < Params.Frequency; i++) {
           runFrame();
         }
         startRandomFilling.skippedFrames = 0;
