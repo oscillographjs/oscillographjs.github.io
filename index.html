@@ -35,7 +35,7 @@
     createConstProperty(ctx, "width", tutorialCanvas.width);
     const LineLength = ctx.height / 12;
     const wipe = function () {
-      ctx.fillStyle = "rgb(255, 255, 255)";
+      ctx.fillStyle = "rgb(0, 0, 0)";
       ctx.fillRect(0,0, ctx.width, ctx.height);
     };
     ctx.x = ctx.width / 2;
@@ -58,6 +58,7 @@
     const drawLine = (x1, y1, x2, y2) => {
       ctx.beginPath();
       ctx.moveTo(x1, y1);
+      ctx.strokeStyle = 'rgb(0, 255, 0)';
       ctx.lineTo(x2, y2);
       ctx.stroke();
       ctx.closePath();
@@ -90,32 +91,25 @@
       xFunc: 'cos',
       yFunc: 'sin',
       Frequency: 500,
-      clearCanvas: false,
+      clearCanvas: true,
+      LineLength: LineLength * 5.5,
     };
     const drawRandomPoint = () => {
       var ss = Math.random();
       drawPoint(
         Math.floor(
-          ctx.x + LineLength * 5 * (
+          ctx.x + Params.LineLength * (
             Math[Params.xFunc](ss * Math.PI * Params.xPi)
           )
         ),
         Math.floor(
-          ctx.y + LineLength * 5 * (
+          ctx.y + Params.LineLength * (
             Math[Params.yFunc](ss * Math.PI * Params.yPi)
           )
         )
       );
     }
     let FramesToSkip = 0;
-    const clearCanvas = function () {
-        ctx.clearRect(
-            0,
-            0,
-            ctx.width,
-            ctx.height
-        );
-    }
     const runFrame = () => {
       // drawRandomLine();
       drawRandomPoint();
@@ -124,7 +118,7 @@
     const startRandomFilling = function () {
       if (startRandomFilling.skippedFrames >= FramesToSkip) {
         if (Params.clearCanvas === true) {
-            clearCanvas();
+            wipe();
         }
         for (let i = 0; i < Params.Frequency; i++) {
           runFrame();
