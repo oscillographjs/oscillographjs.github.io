@@ -90,6 +90,7 @@
       xFunc: 'cos',
       yFunc: 'sin',
       Frequency: 500,
+      clearCanvas: false,
     };
     const drawRandomPoint = () => {
       var ss = Math.random();
@@ -107,12 +108,24 @@
       );
     }
     let FramesToSkip = 0;
+    const clearCanvas = function () {
+        ctx.clearRect(
+            0,
+            0,
+            ctx.width,
+            ctx.height
+        );
+    }
     const runFrame = () => {
       // drawRandomLine();
       drawRandomPoint();
     }
+
     const startRandomFilling = function () {
       if (startRandomFilling.skippedFrames >= FramesToSkip) {
+        if (Params.clearCanvas === true) {
+            clearCanvas();
+        }
         for (let i = 0; i < Params.Frequency; i++) {
           runFrame();
         }
