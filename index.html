@@ -5,12 +5,6 @@
   <script src="functions.js"></script>
   <script src="prototype.js"></script>
   <script src="int_range.js"></script>
-  <script src="weapon.js"></script>
-  <script src="unit.js"></script>
-  <script src="army.js"></script>
-  <script src="army_units.js"></script>
-  <script src="unit_factory.js"></script>
-  <script src="point.js"></script>
   <style>
     .canvas {
       margin: 0 auto;
@@ -23,10 +17,9 @@
   <canvas
     id="tutorialCanvas"
     class="canvas"
-    width="1280"
-    height="720"
+    width="1600"
+    height="900"
     ></canvas>
-  <script src="main.js"></script>
   <script>
     const ctx = tutorialCanvas.getContext("2d");
     tutorialCanvas.width = window.innerWidth * 0.95;
@@ -43,18 +36,6 @@
     ctx.beginPath();
     ctx.moveTo(ctx.x, ctx.y);
     ctx.closePath();
-    const NewDestination = {
-      x: IntRange.factory.create({
-        min: 0,
-        max: ctx.width,
-        initialValue: 0,
-      }),
-      y: IntRange.factory.create({
-        min: 0,
-        max: ctx.height,
-        initialValue: 0,
-      }),
-    };
     const drawLine = (x1, y1, x2, y2) => {
       ctx.beginPath();
       ctx.moveTo(x1, y1);
@@ -66,25 +47,6 @@
     const drawPoint = (x, y) => {
       drawLine(x, y, x + 1, y + 1);
     }
-    const drawRandomLine = () => {
-      NewDestination.x.setValue(NewDestination.x.MIN);
-      NewDestination.y.setValue(NewDestination.y.MIN);
-      const angle = 2 * Math.PI * Math.random();
-      const newX =
-        Math.round(LineLength * Math.cos(angle)) + ctx.x;
-      const newY =
-        Math.round(LineLength * Math.sin(angle)) + ctx.y;
-      NewDestination.x.changeValue(newX);
-      NewDestination.y.changeValue(newY);
-      drawLine(
-        ctx.x,
-        ctx.y,
-        NewDestination.x.getValue(),
-        NewDestination.y.getValue()
-      );
-      ctx.x = NewDestination.x.getValue();
-      ctx.y = NewDestination.y.getValue();
-    }
     const Params = {
       xPi: 2,
       yPi: 2,
@@ -92,18 +54,20 @@
       yFunc: 'sin',
       Frequency: 500,
       clearCanvas: true,
-      LineLength: LineLength * 5.5,
+      LineLength: LineLength * 2.5,
+      xCenter: ctx.x,
+      yCenter: ctx.y,
     };
     const drawRandomPoint = () => {
       var ss = Math.random();
       drawPoint(
         Math.floor(
-          ctx.x + Params.LineLength * (
+          Params.xCenter + Params.LineLength * (
             Math[Params.xFunc](ss * Math.PI * Params.xPi)
           )
         ),
         Math.floor(
-          ctx.y + Params.LineLength * (
+          Params.yCenter + Params.LineLength * (
             Math[Params.yFunc](ss * Math.PI * Params.yPi)
           )
         )
@@ -111,7 +75,6 @@
     }
     let FramesToSkip = 0;
     const runFrame = () => {
-      // drawRandomLine();
       drawRandomPoint();
     }
 
