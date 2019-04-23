@@ -1,99 +1,92 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Army (Abstract Factory pattern)</title>
-  <script src="functions.js"></script>
-  <script src="prototype.js"></script>
-  <script src="int_range.js"></script>
-  <style>
-    .canvas {
-      margin: 0 auto;
-      display: block;
-      border: 1px solid grey;
-    }
-  </style>
-</head>
-<body>
-  <canvas
-    id="tutorialCanvas"
-    class="canvas"
-    width="1600"
-    height="900"
-    ></canvas>
-  <script>
-    const ctx = tutorialCanvas.getContext("2d");
-    tutorialCanvas.width = window.innerWidth * 0.95;
-    tutorialCanvas.height = window.innerHeight * 0.95;
-    createConstProperty(ctx, "height", tutorialCanvas.height);
-    createConstProperty(ctx, "width", tutorialCanvas.width);
-    const LineLength = ctx.height / 12;
-    const wipe = function () {
-      ctx.fillStyle = "rgb(0, 0, 0)";
-      ctx.fillRect(0,0, ctx.width, ctx.height);
-    };
-    ctx.x = ctx.width / 2;
-    ctx.y = ctx.height / 2;
-    ctx.beginPath();
-    ctx.moveTo(ctx.x, ctx.y);
-    ctx.closePath();
-    const drawLine = (x1, y1, x2, y2) => {
-      ctx.beginPath();
-      ctx.moveTo(x1, y1);
-      ctx.strokeStyle = 'rgb(0, 255, 0)';
-      ctx.lineTo(x2, y2);
-      ctx.stroke();
-      ctx.closePath();
-    }
-    const drawPoint = (x, y) => {
-      drawLine(x, y, x + 1, y + 1);
-    }
-    const Params = {
-      xPi: 2,
-      yPi: 2,
-      xFunc: 'cos',
-      yFunc: 'sin',
-      Frequency: 500,
-      clearCanvas: true,
-      LineLength: LineLength * 2.5,
-      xCenter: ctx.x,
-      yCenter: ctx.y,
-    };
-    const drawRandomPoint = () => {
-      var ss = Math.random();
-      drawPoint(
-        Math.floor(
-          Params.xCenter + Params.LineLength * (
-            Math[Params.xFunc](ss * Math.PI * Params.xPi)
-          )
-        ),
-        Math.floor(
-          Params.yCenter + Params.LineLength * (
-            Math[Params.yFunc](ss * Math.PI * Params.yPi)
-          )
-        )
-      );
-    }
-    let FramesToSkip = 0;
-    const runFrame = () => {
-      drawRandomPoint();
-    }
-
-    const startRandomFilling = function () {
-      if (startRandomFilling.skippedFrames >= FramesToSkip) {
-        if (Params.clearCanvas === true) {
-            wipe();
-        }
-        for (let i = 0; i < Params.Frequency; i++) {
-          runFrame();
-        }
-        startRandomFilling.skippedFrames = 0;
-      } else {
-        startRandomFilling.skippedFrames += 1;
-      }
-      requestAnimationFrame(startRandomFilling);
-    }
-    startRandomFilling.skippedFrames = 0;
-    startRandomFilling();
-  </script>
-</body>
+    <head>
+        <title>Oscilloscope</title>
+        <style>
+            .canvas {
+                margin: 0 auto;
+                display: block;
+                border: 1px solid grey;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas
+            id="OscilloscopeCanvas"
+            class="canvas"
+            width="1600"
+            height="900"
+            ></canvas>
+        <script>
+            const ctx = OscilloscopeCanvas.getContext("2d");
+            OscilloscopeCanvas.width = window.innerWidth * 0.95;
+            OscilloscopeCanvas.height = window.innerHeight * 0.95;
+            ctx.width = OscilloscopeCanvas.width;
+            ctx.height = OscilloscopeCanvas.height;
+            const LineLength = ctx.height / 12;
+            const wipe = function () {
+                ctx.fillStyle = "rgb(0, 0, 0)";
+                ctx.fillRect(0,0, ctx.width, ctx.height);
+            };
+            ctx.x = ctx.width / 2;
+            ctx.y = ctx.height / 2;
+            const drawLine = (x1, y1, x2, y2) => {
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.strokeStyle = 'rgb(0, 255, 0)';
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+                ctx.closePath();
+            }
+            const drawPoint = (x, y) => {
+                drawLine(x, y, x + 1, y + 1);
+            }
+            const Params = {
+                xPi: 2,
+                yPi: 2,
+                xFunc: 'cos',
+                yFunc: 'sin',
+                Frequency: 500,
+                clearCanvas: true,
+                LineLength: LineLength * 2.5,
+                xCenter: ctx.x,
+                yCenter: ctx.y,
+                FramesToSkip: 0,
+            };
+            const drawRandomPoint = () => {
+                var ss = Math.random();
+                drawPoint(
+                    Math.floor(
+                        Params.xCenter + Params.LineLength * (
+                            Math[Params.xFunc](ss * Math.PI * Params.xPi)
+                        )
+                    ),
+                    Math.floor(
+                        Params.yCenter + Params.LineLength * (
+                            Math[Params.yFunc](ss * Math.PI * Params.yPi)
+                        )
+                    )
+                );
+            }
+            const runFrame = () => {
+                drawRandomPoint();
+            }
+            const startRandomFilling = function () {
+                if (startRandomFilling.skippedFrames >= Params.FramesToSkip) {
+                    if (Params.clearCanvas === true) {
+                        wipe();
+                    }
+                    for (let i = 0; i < Params.Frequency; i++) {
+                      runFrame();
+                    }
+                    startRandomFilling.skippedFrames = 0;
+                } else {
+                    startRandomFilling.skippedFrames += 1;
+                }
+                requestAnimationFrame(startRandomFilling);
+            }
+            startRandomFilling.skippedFrames = 0;
+            startRandomFilling();
+        </script>
+    </body>
 </html>
