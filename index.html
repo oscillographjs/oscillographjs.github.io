@@ -52,6 +52,7 @@
                 xCenter: ctx.x,
                 yCenter: ctx.y,
                 FramesToSkip: 0,
+                Phase: 1,
             };
             const drawRandomPoint = () => {
                 var ss = Math.random();
@@ -63,7 +64,7 @@
                     ),
                     Math.floor(
                         Params.yCenter + Params.LineLength * (
-                            Math[Params.yFunc](ss * Math.PI * Params.yPi)
+                            Math[Params.yFunc](ss * Math.PI * Params.yPi * Params.Phase)
                         )
                     )
                 );
