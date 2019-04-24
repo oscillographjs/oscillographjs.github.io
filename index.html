@@ -170,7 +170,54 @@
                     if (Params.Rendering.Frequency - delta >= 0) {
                         Params.Rendering.Frequency -= delta;
                     }
-                }
+                },
+                KeyG: (event) => {
+                    var delta = 25;
+                    if (event.shiftKey) {
+                        delta = 50;
+                    }
+                    if (Params.Rendering.LineLength + delta <= 400) {
+                        Params.Rendering.LineLength += delta;
+                    }
+                },
+                KeyB: (event) => {
+                    var delta = 25;
+                    if (event.shiftKey) {
+                        delta = 50;
+                    }
+                    if (Params.Rendering.LineLength - delta >= 10) {
+                        Params.Rendering.LineLength -= delta;
+                    }
+                },
+                KeyI: (event) => {
+                    var delta = 10;
+                    if (event.shiftKey) {
+                        delta = 50;
+                    }
+                    Params.Rendering.yCenter -= delta;
+                },
+                KeyJ: (event) => {
+                    var delta = 10;
+                    if (event.shiftKey) {
+                        delta = 50;
+                    }
+                    Params.Rendering.xCenter -= delta;
+                },
+                KeyK: (event) => {
+                    var delta = 10;
+                    if (event.shiftKey) {
+                        delta = 50;
+                    }
+                    Params.Rendering.yCenter += delta;
+                },
+                KeyL: (event) => {
+                    var delta = 10;
+                    if (event.shiftKey) {
+                        delta = 50;
+                    }
+                    Params.Rendering.xCenter += delta;
+                },
+
             };
             document.body.addEventListener('keypress', (event) => {
                 if (KeyBindings[event.code]) {
