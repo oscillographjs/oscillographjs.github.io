@@ -41,12 +41,22 @@
             const drawPoint = (x, y) => {
                 drawLine(x, y, x + 1, y + 1);
             }
+            const getTrigonometricFunction = function (name) {
+                let table = {
+                    'defaultX': 'cos',
+                    'defaultY': 'sin',
+                    'cos': 'sin',
+                    'sin': 'tan',
+                    'tan': 'cos',
+                };
+                return table[name];
+            }
             const getDefaultMathParams = function () {
                 return {
                     xPi: 2,
                     yPi: 2,
-                    xFunc: 'cos',
-                    yFunc: 'sin',
+                    xFunc: getTrigonometricFunction('defaultX'),
+                    yFunc: getTrigonometricFunction('defaultY'),
                     Phase: 1,
                 }
             }
@@ -217,7 +227,12 @@
                     }
                     Params.Rendering.xCenter += delta;
                 },
-
+                KeyY: (event) => {
+                    Params.Math.xFunc = getTrigonometricFunction(Params.Math.xFunc);
+                },
+                KeyH: (event) => {
+                    Params.Math.yFunc = getTrigonometricFunction(Params.Math.yFunc);
+                }
             };
             document.body.addEventListener('keypress', (event) => {
                 if (KeyBindings[event.code]) {
