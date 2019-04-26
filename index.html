@@ -14,8 +14,8 @@
         <canvas
             id="OscilloscopeCanvas"
             class="canvas"
-            width="1600"
-            height="900"
+            width="500"
+            height="500"
             ></canvas>
         <script>
             const ctx = OscilloscopeCanvas.getContext("2d");
@@ -62,9 +62,9 @@
             }
             const getDefaultRenderingParams = function () {
                 return {
-                    Frequency: 500,
+                    Frequency: 15000,
                     ClearCanvas: true,
-                    LineLength: LineLength * 2.5,
+                    LineLength: LineLength * 3.5,
                     FramesToSkip: 0,
                     xCenter: ctx.x,
                     yCenter: ctx.y,
@@ -239,6 +239,85 @@
                     KeyBindings[event.code](event);
                 }
             });
+
+            function getCanvasMousePosition(event) {
+              const boundingRect = OscilloscopeCanvas.getBoundingClientRect();
+              const x = event.clientX - boundingRect.left;
+              const y = event.clientY - boundingRect.top;
+              return {
+                x: Math.floor(x),
+                y: Math.floor(y),
+              };
+            }
+            let MousePressed = false;
+            const Mouse = {
+                Pressed: false,
+                Start: {
+                    x: null,
+                    y: null,
+                },
+                Move: {
+                    x: null,
+                    y: null,
+                },
+                Math: {
+                    xPi: null,
+                    yPi: null,
+                }
+            };
+
+            document.body.addEventListener(
+                'mousedown',
+                function () {
+                    Mouse.Pressed = true;
+                    let data = getCanvasMousePosition(event);
+                    Mouse.Start.x = data.x;
+                    Mouse.Start.y = data.y;
+                    Mouse.Math.xPi = Params.Math.xPi;
+                    Mouse.Math.yPi = Params.Math.yPi;
+                }
+            );
+            document.body.addEventListener(
+                'mouseup',
+                function () {
+                    Mouse.Pressed = false;
+                }
+            );
+            document.body.addEventListener(
+                'mousemove',
+                function (event) {
+                    if (!Mouse.Pressed) {
+                        return;
+                    }
+                    let data = getCanvasMousePosition(event);
+                    Mouse.Move.x = data.x;
+                    Mouse.Move.y = data.y;
+                    let x = (Mouse.Move.x - Mouse.Start.x) / 100;
+                    let y = (Mouse.Start.y - Mouse.Move.y) / 100;
+                    Params.Math.xPi = Mouse.Math.xPi + x;
+                    Params.Math.yPi = Mouse.Math.yPi + y;
+                }
+            );
+
+            document.body.addEventListener("touchstart", handleStart);
+            document.body.addEventListener("touchmove", handleMove);
+            function handleStart(event) {
+                let data = getCanvasMousePosition(event.changedTouches[0]);
+                Mouse.Start.x = data.x;
+                Mouse.Start.y = data.y;
+                Mouse.Math.xPi = Params.Math.xPi;
+                Mouse.Math.yPi = Params.Math.yPi;
+            }
+
+            function handleMove(event) {
+                let data = getCanvasMousePosition(event.changedTouches[0]);
+                Mouse.Move.x = data.x;
+                Mouse.Move.y = data.y;
+                let x = (Mouse.Move.x - Mouse.Start.x) / 100;
+                let y = (Mouse.Start.y - Mouse.Move.y) / 100;
+                Params.Math.xPi = Mouse.Math.xPi + x;
+                Params.Math.yPi = Mouse.Math.yPi + y;
+            }
         </script>
     </body>
 </html>
