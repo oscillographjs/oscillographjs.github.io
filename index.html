@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-        <meta name='version' content='0.6'>
+        <meta name='version' content='0.7'>
         <title>Oscillograph</title>
         <style>
             body {
@@ -67,9 +67,9 @@
             }
             const getDefaultRenderingParams = function () {
                 return {
-                    Frequency: 2500,
+                    Frequency: 1500,
                     ClearCanvas: true,
-                    LineLength: LineLength * 3.2,
+                    LineLength: LineLength * 3.5,
                     FramesToSkip: 0,
                     xCenter: ctx.x,
                     yCenter: ctx.y,
@@ -79,31 +79,27 @@
                 Math: getDefaultMathParams(),
                 Rendering: getDefaultRenderingParams(),
             };
-            const drawRandomPoint = () => {
-                var ss = Math.random();
+            const drapPlot = (point) => {
                 drawPoint(
                     Math.floor(
                         Params.Rendering.xCenter + Params.Rendering.LineLength * (
-                            Math[Params.Math.xFunc](ss * Math.PI * Params.Math.xPi)
+                            Math[Params.Math.xFunc](point * Math.PI * Params.Math.xPi)
                         )
                     ),
                     Math.floor(
                         Params.Rendering.yCenter + Params.Rendering.LineLength * (
-                            Math[Params.Math.yFunc](ss * Math.PI * Params.Math.yPi * Params.Math.Phase)
+                            Math[Params.Math.yFunc](point * Math.PI * Params.Math.yPi * Params.Math.Phase)
                         )
                     )
                 );
-            }
-            const runFrame = () => {
-                drawRandomPoint();
             }
             const startRandomFilling = function () {
                 if (startRandomFilling.skippedFrames >= Params.Rendering.FramesToSkip) {
                     if (Params.Rendering.ClearCanvas === true) {
                         wipe();
                     }
-                    for (let i = 0; i < Params.Rendering.Frequency; i++) {
-                      runFrame();
+                    for (let i = 0; i <= 1; i+= 1 / Params.Rendering.Frequency) {
+                        drapPlot(i);
                     }
                     startRandomFilling.skippedFrames = 0;
                 } else {
