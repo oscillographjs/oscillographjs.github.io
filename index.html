@@ -96,7 +96,7 @@
                     yPi: null,
                 }
             };
-            const drapPlot = (point) => {
+            const drawPlot = (point) => {
                 drawPoint(
                     Math.floor(
                         Params.Rendering.xCenter + Params.Rendering.LineLength * (
@@ -134,7 +134,7 @@
                         Params.Math.yPi += LastMouseMove.y;
                     }
                     for (let i = 0; i <= 1; i+= 1 / Params.Rendering.Frequency) {
-                        drapPlot(i);
+                        drawPlot(i);
                     }
                     startRandomFilling.skippedFrames = 0;
                 } else {
